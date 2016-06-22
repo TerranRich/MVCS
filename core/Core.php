@@ -25,19 +25,14 @@ class Core
     {
         // Set all our defaults
         $controller = $config['default_controller'];
+        $action = 'index';
         $url = '';
         
-        // Get request URL and script URL
-        $request_url = $_SERVER['REQUEST_URI'] ?: '';
-        $script_url  = $_SERVER['PHP_SELF']    ?: '';
+        // Get route URL
+        $route_url = $_GET['route'] ?: '';
         
-        // Get our URL path and trim the / from the left & right
-        if ($request_url != $script_url) {
-            $script_url = str_replace('index.php', '',   $script_url);
-            $script_url = str_replace('/',         '\/', $script_url);
-            $script_url = '/' . $script_url . '/';
-            $url = trim(preg_replace($script_url, '', $request_url, 1), '/');
-        }
+        // Trim the / from the left & right of the URL
+        $url = trim($route_url, '/');
         
         // Split the URL into segments
         $segments = explode('/', $url);
